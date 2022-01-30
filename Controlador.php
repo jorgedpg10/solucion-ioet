@@ -34,11 +34,11 @@ class Controlador {
                 $dia = $registro->getDia();
                 $hora_inicio = $registro->getHoraInicio();
 
-                if (strtotime($hora_inicio) >= strtotime('00:01') && strtotime($hora_inicio) < strtotime('09:00')) {
+                if (strtotime($hora_inicio) >= strtotime('00:00') && strtotime($hora_inicio) < strtotime('09:00')) {
                     $index = 0;
-                } else if (strtotime($hora_inicio) >= strtotime('09:01') && strtotime($hora_inicio) < strtotime('18:00')) {
+                } else if (strtotime($hora_inicio) >= strtotime('09:00') && strtotime($hora_inicio) < strtotime('18:00')) {
                     $index = 1;
-                } else if (strtotime($hora_inicio) >= strtotime('18:01') && strtotime($hora_inicio) < strtotime('23:59')) {
+                } else if (strtotime($hora_inicio) >= strtotime('18:00') && strtotime($hora_inicio) < strtotime('23:59')) {
                     $index = 2;
                 } else {
                     print_r('Error en el formato de la hora');
@@ -51,7 +51,7 @@ class Controlador {
                 } else if ($dia == 'SA' || $dia == 'SU') {
                     $valor = array(30, 20, 25);
                 } else {
-                    print_r('Error en el formato del archivo \n');
+                    print_r('Error en el formato del DÍA \n');
                     // deberia botar un error aquì ?
                 }
 

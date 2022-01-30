@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
+  <component name="PhpProjectServersManager">
+    <servers>
+      <server host="http://solucion-ioet.test/" id="13682d89-b761-4f2b-ac64-10d8670474d6" name="ioet-server" />
+    </servers>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/vendor/phpunit/phpunit/phpunit" phpunit_phar_path="" />
+    </phpunit_settings>
+  </component>
 </project>
