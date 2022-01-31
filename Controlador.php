@@ -5,7 +5,7 @@ class Controlador {
 
 
     public function calcularJornada($jornadas) {
-        $response = [];
+        $response_data = [];
 
         foreach ($jornadas as $jornada) {
 
@@ -41,9 +41,14 @@ class Controlador {
 
             }
 
-            array_push($response, array("nombre" => $jornada->nombre, "total_jornada" => $total_jornada));
+            array_push($response_data, array("nombre" => $jornada->nombre, "total_jornada" => $total_jornada));
 
         }
+        $response = ['message' => 'success',
+                'isSuccessful' => true,
+                'data' => $response_data
+        ];
+
         return $response;
     }
 

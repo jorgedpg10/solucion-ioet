@@ -3,11 +3,12 @@
 require 'src/Registro.php';
 require 'src/Jornada.php';
 
+
 class Carga {
 
     public function importarInformacion() {
 
-        $file = "./data.txt";
+       $file = "data.txt";
         $document = file_get_contents($file);
 
         try {

@@ -2,14 +2,17 @@
 
 require 'Carga.php';
 require 'Controlador.php';
-
+require 'env.php';
 
 $carga = new Carga();
-$jornadas = $carga->importarInformacion();
+$jornadas = $carga->importarInformacion($file);
 
 $controlador = new Controlador();
 $response = $controlador->calcularJornada($jornadas);
 
-foreach ($response as $res) {
-    print_r("The amount to pay: " . $res['nombre'] . " is " . $res['total_jornada'] . " USD <br>");
+
+if ($response['isSuccessful']) {
+    foreach ($response['data'] as $data) {
+        print_r("The amount to pay: " . $data['nombre'] . " is " . $data['total_jornada'] . " USD <br>");
+    }
 }
