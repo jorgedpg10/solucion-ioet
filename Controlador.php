@@ -1,43 +1,16 @@
 <?php
-require 'src/Registro.php';
+
 
 class Controlador {
 
 
-    public function calcularJornada($lines) {
+    public function calcularJornada($jornadas) {
         $response = [];
 
-        foreach ($lines as $line) {
-
-            try {
-                $separacion = explode("=", $line);
-                $nombre = $separacion[0];
-                $nombre = $this->correctName($nombre);
-                $string_registros = $separacion[1];
-                $registros = explode(",", $string_registros);
-            } catch (Exception $e) {
-                echo 'Caught exception: ',  $e->getMessage(), "\n";
-                exit(1);
-            }
-
-
-            foreach ($registros as $registro) {
-                $object = new Registro();
-                $object->setDia(substr($registro, 0, 2));
-                $registro = substr($registro, 2, 12);
-                $horas = explode("-", $registro);
-                $object->setHoraInicio($horas[0]);
-                $object->setHoraFin($horas[1]);
-                $arreglo_registros[] = $object;
-            }
-
-            /* echo "<pre>";
-             print_r($arreglo_registros);
-             echo "</pre>";*/
-
+        foreach ($jornadas as $jornada) {
 
             $total_jornada = 0;
-            foreach ($arreglo_registros as $registro) {
+            foreach ($jornada->registros as $registro) {
                 $dia = $registro->getDia();
                 $hora_inicio = $registro->getHoraInicio();
 
@@ -49,6 +22,7 @@ class Controlador {
                     $index = 2;
                 } else {
                     print_r('Error en el formato de la hora');
+                    die();
                 }
 
                 $horas = abs(strtotime($hora_inicio) - strtotime($registro->getHoraFin())) / 3600;
@@ -58,27 +32,19 @@ class Controlador {
                 } else if ($dia == 'SA' || $dia == 'SU') {
                     $valor = array(30, 20, 25);
                 } else {
-                    print_r('Error en el formato del DÍA \n');
-                    // deberia botar un error aquì ?
-                }
+                    print_r('\n Error en el formato del dìa \n');
+                    die();
 
+                }
                 $precio_registro = $horas * $valor[$index];
                 $total_jornada += $precio_registro;
-                //print_r($total_jornada. "<br>");
 
             }
 
-            array_push($response, array("nombre" => $nombre, "total_jornada" => $total_jornada));
-            unset($arreglo_registros);
+            array_push($response, array("nombre" => $jornada->nombre, "total_jornada" => $total_jornada));
+
         }
         return $response;
     }
 
-    public function correctName($input){
-        if ( gettype($input) != 'string' || $input == '' || $input == null){
-            throw new Exception('Error, the name format is not correct');
-        }
-
-        return $input;
-    }
 }
