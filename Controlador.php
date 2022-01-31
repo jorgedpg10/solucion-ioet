@@ -21,8 +21,11 @@ class Controlador {
                 } else if (strtotime($hora_inicio) >= strtotime('18:00') && strtotime($hora_inicio) < strtotime('23:59')) {
                     $index = 2;
                 } else {
-                    print_r('Error en el formato de la hora');
-                    die();
+                    return $response = ['message' => 'Error. Time format is not correct',
+                            'isSuccessful' => false,
+                            'data' => []
+                    ];
+
                 }
 
                 $horas = abs(strtotime($hora_inicio) - strtotime($registro->getHoraFin())) / 3600;
@@ -32,9 +35,10 @@ class Controlador {
                 } else if ($dia == 'SA' || $dia == 'SU') {
                     $valor = array(30, 20, 25);
                 } else {
-                    print_r('\n Error en el formato del dìa \n');
-                    die();
-
+                    return $response = ['message' => 'Error. Day format is not correct',
+                            'isSuccessful' => false,
+                            'data' => []
+                    ];
                 }
                 $precio_registro = $horas * $valor[$index];
                 $total_jornada += $precio_registro;
