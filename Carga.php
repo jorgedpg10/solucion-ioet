@@ -7,13 +7,24 @@ class Carga {
         $file = "./data.txt";
         $document = file_get_contents($file);
 
-        $lines = explode("\n", $document);
-        return $lines;
+        try {
+            $document = $this->isString($document);
 
-        foreach ($lines as $line){
-            $jornada = new Jornada ();
-                    $jornada = $line;
+            $lines = explode("\n", $document);
+            return $lines;
+
+        }catch(Exception $e){
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
+    }
+
+
+    function isString( $input ){
+        if( gettype($input) != 'string'){
+            throw new Exception('Error, the format is not correct');
+        }
+
+        return $input;
     }
 
 }

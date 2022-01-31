@@ -3,15 +3,22 @@ require 'src/Registro.php';
 
 class Controlador {
 
+
     public function calcularJornada($lines) {
         $response = [];
 
         foreach ($lines as $line) {
 
-            $separacion = explode("=", $line);
-            $nombre = $separacion[0];
-            $string_registros = $separacion[1];
-            $registros = explode(",", $string_registros);
+            try {
+                $separacion = explode("=", $line);
+                $nombre = $separacion[0];
+                $nombre = $this->correctName($nombre);
+                $string_registros = $separacion[1];
+                $registros = explode(",", $string_registros);
+            } catch (Exception $e) {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+                exit(1);
+            }
 
 
             foreach ($registros as $registro) {
@@ -65,5 +72,13 @@ class Controlador {
             unset($arreglo_registros);
         }
         return $response;
+    }
+
+    public function correctName($input){
+        if ( gettype($input) != 'string' || $input == '' || $input == null){
+            throw new Exception('Error, the name format is not correct');
+        }
+
+        return $input;
     }
 }
