@@ -1,5 +1,5 @@
 <?php
-require 'src/Registro.php';
+
 
 class Controlador {
 
@@ -22,19 +22,23 @@ class Controlador {
 
 
             foreach ($registros as $registro) {
-                $object = new Registro();
-                $object->setDia(substr($registro, 0, 2));
+                $record = new Record();
+                $workingDay = new WorkingDay();
+                $record->setDia(substr($registro, 0, 2));
                 $registro = substr($registro, 2, 12);
                 $horas = explode("-", $registro);
-                $object->setHoraInicio($horas[0]);
-                $object->setHoraFin($horas[1]);
-                $arreglo_registros[] = $object;
+                $record->setHoraInicio($horas[0]);
+                $record->setHoraFin($horas[1]);
+                  $workingDay->setRecords();
+
+                //$arreglo_registros[] = $object;
             }
 
-            /* echo "<pre>";
-             print_r($arreglo_registros);
-             echo "</pre>";*/
+             echo "<pre>";
+             print_r($workingDay->records);
+             echo "</pre>";
 
+             die();
 
             $total_jornada = 0;
             foreach ($arreglo_registros as $registro) {

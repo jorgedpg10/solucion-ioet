@@ -1,6 +1,6 @@
 <?php
 
-class Registro {
+class Record {
     protected $dia;
     protected $hora_inicio;
     protected $hora_fin;

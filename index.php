@@ -1,7 +1,10 @@
 <?php
 
-require 'Carga.php';
-require 'Controlador.php';
+require_once 'Carga.php';
+require_once 'src/Record.php';
+require_once 'src/WorkingDay.php';
+require_once 'Controlador.php';
+
 $carga = new Carga();
 $lines = $carga->importarInformacion();
 
