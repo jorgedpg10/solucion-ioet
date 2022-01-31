@@ -3,15 +3,22 @@ require 'src/Registro.php';
 
 class Controlador {
 
+
     public function calcularJornada($lines) {
         $response = [];
 
         foreach ($lines as $line) {
 
-            $separacion = explode("=", $line);
-            $nombre = $separacion[0];
-            $string_registros = $separacion[1];
-            $registros = explode(",", $string_registros);
+            try {
+                $separacion = explode("=", $line);
+                $nombre = $separacion[0];
+                $nombre = $this->correctName($nombre);
+                $string_registros = $separacion[1];
+                $registros = explode(",", $string_registros);
+            } catch (Exception $e) {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+                exit(1);
+            }
 
 
             foreach ($registros as $registro) {
@@ -34,11 +41,11 @@ class Controlador {
                 $dia = $registro->getDia();
                 $hora_inicio = $registro->getHoraInicio();
 
-                if (strtotime($hora_inicio) >= strtotime('00:01') && strtotime($hora_inicio) < strtotime('09:00')) {
+                if (strtotime($hora_inicio) >= strtotime('00:00') && strtotime($hora_inicio) < strtotime('09:00')) {
                     $index = 0;
-                } else if (strtotime($hora_inicio) >= strtotime('09:01') && strtotime($hora_inicio) < strtotime('18:00')) {
+                } else if (strtotime($hora_inicio) >= strtotime('09:00') && strtotime($hora_inicio) < strtotime('18:00')) {
                     $index = 1;
-                } else if (strtotime($hora_inicio) >= strtotime('18:01') && strtotime($hora_inicio) < strtotime('23:59')) {
+                } else if (strtotime($hora_inicio) >= strtotime('18:00') && strtotime($hora_inicio) < strtotime('23:59')) {
                     $index = 2;
                 } else {
                     print_r('Error en el formato de la hora');
@@ -51,7 +58,7 @@ class Controlador {
                 } else if ($dia == 'SA' || $dia == 'SU') {
                     $valor = array(30, 20, 25);
                 } else {
-                    print_r('Error en el formato del archivo \n');
+                    print_r('Error en el formato del DÍA \n');
                     // deberia botar un error aquì ?
                 }
 
@@ -65,5 +72,13 @@ class Controlador {
             unset($arreglo_registros);
         }
         return $response;
+    }
+
+    public function correctName($input){
+        if ( gettype($input) != 'string' || $input == '' || $input == null){
+            throw new Exception('Error, the name format is not correct');
+        }
+
+        return $input;
     }
 }
