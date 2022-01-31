@@ -1,11 +1,18 @@
 <?php
 
-require 'Carga.php';
-require 'Controlador.php';
+require 'src/Models/Carga.php';
+require 'src/Controlador.php';
 require 'env.php';
 
 $carga = new Carga();
-$jornadas = $carga->importarInformacion($file);
+$carga_response = $carga->importarInformacion($file);
+
+if ($carga_response['isSuccessful']) {
+    $jornadas = $carga_response['data'];
+}else{
+    print_r( $carga_response['message']);
+    die();
+}
 
 $controlador = new Controlador();
 $response = $controlador->calcularJornada($jornadas);

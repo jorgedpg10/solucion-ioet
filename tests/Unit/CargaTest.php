@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-require_once 'Carga.php';
+
 
 class CargaTest extends TestCase
 {
@@ -9,12 +9,30 @@ class CargaTest extends TestCase
      * @test
      */
     public function test_it_stops_if_txt_is_empty(){
-        $this->markTestSkipped( 'prueba no terminada');
         $carga = new Carga();
-        $carga->importarInformacion("data.txt");
-        $this->assertEquals(true, true);
+        $carga_response = $carga->importarInformacion("data-vacio.txt");
+        $this->assertEquals(false, $carga_response['isSuccessful']);
     }
 
-    //test_it_brings_data_correctly_into_array_jornada
-    //test_it_show_correct_result_with_correct_information
+    /**
+     * @test
+     */
+    public function test_it_shows_error_message_if_name_format_is_not_correct(){
+
+        $carga = new Carga();
+        $carga_response = $carga->importarInformacion("data-nombre-incorrecto.txt");
+        $this->assertEquals(false, $carga_response['isSuccessful']);
+    }
+
+    /**
+     * @test
+     */
+    public function test_it_is_succesful_if_format_is_correct(){
+
+        $carga = new Carga();
+        $carga_response = $carga->importarInformacion("data.txt");
+        $this->assertEquals(true, $carga_response['isSuccessful']);
+        $this->assertNotEmpty($carga_response['data']);
+    }
+
 }

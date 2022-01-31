@@ -1,10 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-require_once 'Carga.php';
-require_once 'Controlador.php';
-require_once  'src/Jornada.php';
-require_once  'src/Registro.php';
+
+require_once 'src/Models/Carga.php';
+require_once 'src/Controlador.php';
+require_once 'src/Models/Jornada.php';
+require_once 'src/Models/Registro.php';
+
 
 class ControladorTest extends TestCase
 {
@@ -12,11 +14,12 @@ class ControladorTest extends TestCase
      * @test
      */
     public function test_it_responds_with_success_when_format_is_correct(){
+
         $carga = new Carga();
-        $jornadas = $carga->importarInformacion("data.txt");
+        $carga_response = $carga->importarInformacion("data.txt");
 
         $controlador = new Controlador();
-        $response = $controlador->calcularJornada($jornadas);
+        $response = $controlador->calcularJornada($carga_response['data']);
 
         $this->assertEquals(true, $response['isSuccessful']);
 
@@ -67,5 +70,5 @@ class ControladorTest extends TestCase
         $this->assertEquals(false, $response['isSuccessful']);
         $this->assertEquals('Error. Day format is not correct', $response['message']);
     }
-    //success is false when name format is incorrect
+
 }
